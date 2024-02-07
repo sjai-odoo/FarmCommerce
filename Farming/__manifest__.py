@@ -3,8 +3,8 @@
 
 {
     'name': 'Farm_Commerce',
-    'description': 'A helping Hand for the farmers',
-    'summary': 'Visitor management system',
+    'description': 'It will serve as a platform for the targeted lower economic farmers to directly sale their ingradients to customers and improve the margin which help them to sustain',
+    'summary': 'A try to help the farmers grow economically',
     'installable': True,
     'application': True,
     'license': 'OEEL-1',
