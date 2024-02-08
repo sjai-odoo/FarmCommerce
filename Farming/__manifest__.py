@@ -7,6 +7,7 @@
     'summary': 'A try to help the farmers grow economically',
     'installable': True,
     'application': True,
+    'depends': ['base'],
     'license': 'OEEL-1',
     'version': '1.0',
 }
