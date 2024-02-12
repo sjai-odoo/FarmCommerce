@@ -1,5 +1,5 @@
 from odoo import fields, models , exceptions , api
-from datetime import timedelta
+import datetime
 
 SALE_ORDER_STATE = [
     ('draft', "Quotation"),
@@ -14,20 +14,15 @@ INVOICE_STATUS = [
 ]
 
 TAXES = [
-    ( 5,'5% tax'),
-    ( 15, 'Base 15%'),
-    ( 21, '21% tax'),
+    ( '5','5% tax'),
+    ( '15', 'Base 15%'),
+    ( '21', '21% tax'),
 ]
 
 class sales(models.Model):
     _name = "sales.order"
     _description = "Sales Order"
     _order = 'date_order desc, id desc'
-    _sql_constraints = [
-        ('date_order_conditional_required',
-         "CHECK((state = 'sale' AND date_order IS NOT NULL) OR state != 'sale')",
-         "A confirmed sales order requires a confirmation date."),
-    ]
 
     # fields
 
@@ -36,7 +31,8 @@ class sales(models.Model):
         required=True, copy=False, readonly=False, 
         index='trigram',
         default='New',
-        related='contact.property.name') 
+        # related='contact.property.name'
+        ) 
 
     state = fields.Selection(
         selection=SALE_ORDER_STATE,
@@ -50,14 +46,13 @@ class sales(models.Model):
     date_order = fields.Datetime( # Ordered date
         string="Order Date",
         required=True, copy=False,
-        default=datetime.datetime.now().day + '/' + datetime.datetime.now().month + '/' + datetime.datetime.now().year
-        )
+        default=datetime.datetime.now().day         )
 
     # billing amount related fields
     
-    amount_tax = fields.Monetary(string="Tax", store=True) # total taxable amount
-    amount_total = fields.Monetary(string="Total", store=True) # total amount
-    amount_invoiced = fields.Monetary(string="Already invoiced", compute='_compute_amount_invoiced')
+    # amount_tax = fields.Monetary(string="Tax", store=True) # total taxable amount
+    # amount_total = fields.Monetary(string="Total", store=True) # total amount
+    # amount_invoiced = fields.Monetary(string="Already invoiced", compute='_compute_amount_invoiced')
 
     invoice_status = fields.Selection(
         selection=INVOICE_STATUS,

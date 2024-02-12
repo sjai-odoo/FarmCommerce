@@ -1,5 +1,5 @@
 from odoo import fields, models , exceptions , api
-from datetime import timedelta
+# from date import datetime   
 
 SALE_ORDER_STATE = [
     ('rfq', "RFQ"),
@@ -14,7 +14,7 @@ TAXES = [
 ]
 
 class Purchase(models.Model):
-    _name = "Purchase.order"
+    _name = "purchase.order"
     _description = "Purchase Order"
     _order = 'date_order desc, id desc'
     _sql_constraints = [
@@ -30,7 +30,8 @@ class Purchase(models.Model):
         required=True, copy=False, readonly=False, 
         index='trigram',
         default='New',
-        related='contact.property.name') 
+        # related='contact.property.name'
+    ) 
 
     state = fields.Selection(
         selection=SALE_ORDER_STATE,
@@ -44,7 +45,7 @@ class Purchase(models.Model):
     arrival = fields.Datetime( # Ordered date
         string="Expected Arrival",
         required=True, copy=False,
-        default=datetime.datetime.now().day + '/' + datetime.datetime.now().month + '/' + datetime.datetime.now().year
+        # default=datetime.now().day + '/' + datetime.now().month + '/' + datetime.now().year
     )
 
     

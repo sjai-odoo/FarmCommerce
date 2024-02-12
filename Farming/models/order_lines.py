@@ -1,9 +1,9 @@
 from odoo import fields, models , exceptions , api
 
 TAXES = [
-    ( 5,'5% tax'),
-    ( 15, 'Base 15%'),
-    ( 21, '21% tax'),
+    ( '5','5% tax'),
+    ( '15', 'Base 15%'),
+    ( '21', '21% tax'),
 ]
 
 class SaleOrderLine(models.Model):
@@ -21,9 +21,9 @@ class SaleOrderLine(models.Model):
     )
 
     name = fields.Text(
-        string="Description",
+        string="Name",
         compute='_compute_name',
-        related='product.property.name',
+        # related='product.property.name',
         store=True, readonly=False, required=True
     )
 
@@ -34,8 +34,8 @@ class SaleOrderLine(models.Model):
 
     price_unit = fields.Float(
         string="Unit Price",
-        related='product.property.sale_price',
-        store=True, readonly=False, required=True, precompute=True
+        # related='product.property.sale_price',
+        store=True, readonly=False, required=True,
     )
 
     quantity = fields.Integer(
@@ -44,12 +44,12 @@ class SaleOrderLine(models.Model):
     )
 
     tax = fields.Selection(
-        string="Taxes", related='product.property.tax',
+        string="Taxes", #related='product.property.tax',
         selection=TAXES, default=5
     ) # tax to apply should be for every product
 
     tax_amount = fields.Float(string="Total Tax",store=True, readonly=True, compute='_compute_total')# Total tax amount 
-    amount_total = fields.Monetary(string="Total", store=True, compute='_compute_total') # total billed amount
+    # amount_total = fields.Monetary(string="Total", store=True, compute='_compute_total') # total billed amount
 
 
     # Methods
@@ -60,6 +60,8 @@ class SaleOrderLine(models.Model):
         for record in self:
             without_tax_total+=record.quantity*record.price_unit
             bill_total+=record.quantity*(record.price_unit*(1+(record.tax/100)))
+
+
         # self.amount_total = bill_total
         # self.tax_amount = self.amount_total - self.without_tax_total
         # can't update like this bcz this fields will be for every records in the table so we can't do like this we need one global 

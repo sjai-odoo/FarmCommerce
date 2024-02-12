@@ -4,9 +4,9 @@ from odoo import fields, models , exceptions , api
 class ContactProperty(models.Model):
     _name = "contact.property"
     _description = "Contact Details"
-    _inherits = {
-        'product.property': 'pro_category',
-    }
+    # _inherits = {
+    #     'product.property': 'pro_category',
+    # }
 
     name = fields.Char(string = 'Name', required=True, size=20) # The name should contain less than 20 char
     phone = fields.Integer(string = 'Phone No.', required=True)
