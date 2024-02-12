@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="contacts_properties_action" model="ir.actions.act_window">
+        <field name="name">Contact Properties</field>
+        <field name="res_model">contact.property</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- ahiya root manu item ma je name nakho e app na name ma dekhay -->
+    <menuitem id="contacts_menu_root" name="Contacts" > 
+        <menuitem id="main_menu" name="Menu" >
+            <menuitem id="submenu_menu" name="Submenu" action="contacts_properties_action"/>
+        </menuitem>
+    </menuitem>
+</odoo>

@@ -2,20 +2,18 @@ from odoo import fields, models , exceptions , api
 # from odoo.exceptions import UserError, RedirectWarning, ValidationError
 
 class ContactProperty(models.Model):
-    _name = "contact.property"
-    _description = "Contact Details"
-    _inherits = {
-        'product.property': 'pro_category',
-    }
+    _name = 'contact.property'
+    _description = 'Contact Details'
 
     name = fields.Char(string = 'Name', required=True, size=20) # The name should contain less than 20 char
-    phone = fields.Integer(string = 'Phone No.', required=True)
-    pro_category = fields.Many2one(string = 'Produced products', required=True )
+    phone = fields.Integer(string = 'Phone No.', required=True)   
+    can_be_sold = fields.Boolean(string='Can be Sold', default=True)
+    can_be_purchased = fields.Boolean(string='Can be Purchased', default=True)
     address = fields.Text(string = 'Address')
-    tags = fields.Text(string = 'Tags')
     language = fields.Selection(selection=[('eng','English'),('guj','Gujarati'),('hi','Hindi')])
     income_certi = fields.Binary(string = 'Income Certificate by gov.') # binary fields accept all files
     email = fields.Text(string = 'Email')
+    category = fields.Many2many('product.property', string='Categories')
 
     # Applied constraint on phone no. to have exactly 10 digits
     
@@ -23,12 +21,6 @@ class ContactProperty(models.Model):
     def _check_number(self):
         number = self.phone
         if number and len(str(abs(number)))!=10: # if number is written and the length is not = 10 than raise an error
-            raise ValidationError(_('Number of digits must on exceed 4'))
-
-    # Optional code
-
-    # _sql_constraints = [
-    #     ('check_phone', 'CHECK(phone != 10)', 'Kindly recheck your phone number.'),
-    # ]
+            raise ValidationError(_('Number of digits must on exceed 10'))
 
     

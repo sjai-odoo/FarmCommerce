@@ -1,9 +1,9 @@
 from odoo import fields, models , exceptions , api
 
 TAXES = [
-    ( 5,'5% tax'),
-    ( 15, 'Base 15%'),
-    ( 21, '21% tax'),
+    ( '5','5% tax'),
+    ( '15', 'Base 15%'),
+    ( '21', '21% tax'),
 ]
 
 class SaleOrderLine(models.Model):
@@ -21,21 +21,16 @@ class SaleOrderLine(models.Model):
     )
 
     name = fields.Text(
-        string="Description",
+        string="Name",
         compute='_compute_name',
-        related='product.property.name',
+        # related='product.property.name',
         store=True, readonly=False, required=True
-    )
-
-    description = fields.Text(
-        string="Description",
-        store=True, readonly=False,
     )
 
     price_unit = fields.Float(
         string="Unit Price",
-        related='product.property.sale_price',
-        store=True, readonly=False, required=True, precompute=True
+        # related='product.property.sale_price',
+        store=True, readonly=False, required=True,
     )
 
     quantity = fields.Integer(
@@ -44,12 +39,12 @@ class SaleOrderLine(models.Model):
     )
 
     tax = fields.Selection(
-        string="Taxes", related='product.property.tax',
+        string="Taxes", #related='product.property.tax',
         selection=TAXES, default=5
     ) # tax to apply should be for every product
 
     tax_amount = fields.Float(string="Total Tax",store=True, readonly=True, compute='_compute_total')# Total tax amount 
-    amount_total = fields.Monetary(string="Total", store=True, compute='_compute_total') # total billed amount
+    # amount_total = fields.Monetary(string="Total", store=True, compute='_compute_total') # total billed amount
 
 
     # Methods
