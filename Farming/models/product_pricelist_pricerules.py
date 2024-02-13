@@ -5,7 +5,7 @@ class ProductPricerules(models.Model):
     _name = "product.pricelist.pricerules"
     _description = "Price Rules"
 
-    applicable = fields.Selection( #update to many2many
+    applicable = fields.Selection( #update to many2manyby codomain
         string="Applicable on",
         required=True, copy=False, readonly=False, 
         selection=[('hey','Hey')],

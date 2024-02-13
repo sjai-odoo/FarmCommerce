@@ -28,3 +28,4 @@ class ProductSales(models.Model):
     )
 
     product_id = fields.One2many('sale.order.line',inverse_name='product_id')
+    

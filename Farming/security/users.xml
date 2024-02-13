@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <odoo>
+
     <!-- Define User Group -->
     <record id="farmer_group_user" model="res.groups"> 
         <field name="name">User</field>
         <field name="category_id" ref="base.module_category_users_contact_type"/>
     </record>
+
 </odoo>

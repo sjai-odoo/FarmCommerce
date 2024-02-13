@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="product_properties_action" model="ir.actions.act_window">
+        <field name="name">product_properties</field>
+        <field name="res_model">product.property</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="product_property_view_tree" model="ir.ui.view">
+        <field name="name">product_property.view.tree</field>
+        <field name="model">product.property</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="name"/>
+                <field name="quantity"/>
+                <field name="sales_price"/>
+                <field name="quantity"/>
+                <field name="tax" />
+            </tree>
+        </field>
+    </record>
+</odoo>

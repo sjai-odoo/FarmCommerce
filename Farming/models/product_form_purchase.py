@@ -29,3 +29,4 @@ class ProductPurchase(models.Model):
         string='Control Policy',
         selection=CONTROL_POLICY,
     )
+    

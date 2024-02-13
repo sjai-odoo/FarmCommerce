@@ -15,5 +15,8 @@
         'security/users.xml',
         'security/ir.model.access.csv',
         'views/contact_views.xml',
+        'views/product_views.xml',
+        'views/sales_order_view.xml',
+        'views/menuitems.xml',
     ]
 }

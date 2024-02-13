@@ -47,5 +47,3 @@ class Purchase(models.Model):
         required=True, copy=False,
         # default=datetime.now().day + '/' + datetime.now().month + '/' + datetime.now().year
     )
-
-    
