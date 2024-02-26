@@ -20,4 +20,26 @@
             </tree>
         </field>
     </record>
+    <record id="product_property_view_form" model="ir.ui.view">
+        <field name="name">product_property.view.form</field>
+        <field name="model">product.property</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="quantity"/>
+                            <field name="pro_category"/>
+                        </group>
+                        <group>
+                            <field name="sales_price"/>
+                            <field name="tax"/>
+                            <field name="cost"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
 </odoo>

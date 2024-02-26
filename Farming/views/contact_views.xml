@@ -11,20 +11,25 @@
         <field name="name">contact.property.view.kanban</field>
         <field name="model">contact.property</field>
         <field name="arch" type="xml">
-            <kanban create="True">
+            <kanban>
                 <templates>
                     <t t-name="kanban-box">
-                        <div class="oe_kanban_card">
-                            <div class="oe_kanban_global_click">
-                                <div class="oe_kanban_column">
-                                    <field name="name"/>
-                                    <div>
-                                        <field name="address"/>
+                        <!-- <progressbar field="status" colors="{'new': 'warning', 'offered': 'danger', 'accepted': 'success', 'sold': 'muted', 'cancel': 'muted'}"/> -->
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_content p-2">
+                                <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_res_partner_kanban">
+                                    <div class="o_kanban_image_fill_left d-none d-md-block">
+                                        <field name="image" widget="image" max-width="40px" max-height="40px"/>
                                     </div>
-                                    <field name="language"/>
-                                </div>
-                                <div class="oe_kanban_column">
-                                    <field name="image" widget="image"/>
+                                    <div class="oe_kanban_details">
+                                        <h3>
+                                            <p class="mb-0"><b><field name="name"/></b></p>
+                                        </h3>
+                                        <field class="mt-0" name="phone"/>
+                                        <field class="mt-0" name="product_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
+                                        <p class="my-0"><b>Location : </b><field name="address"/></p>
+                                        <p class="my-0"><b>Language : </b><field name="language"/></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -53,10 +58,16 @@
         <field name="model">contact.property</field>
         <field name="arch" type="xml">
             <form string="Contacts">
+                <header>
+                    <button name="action_order_items" type="object" string="Order" class="btn-primary" invisible="can_be_sold != True"/>
+                    <field name="status" widget="statusbar" invisible="can_be_sold != True"/>
+                </header>
                 <sheet>
                     <group>
                         <group>
-                            <field name="name"/>
+                            <field name="name" />
+                            <!-- <field name="name" invisible="can_be_purchased == True"/>
+                            <field name="buyer_id" invisible="can_be_purchased != True"/> -->
                             <field name="phone"/>                            
                             <field name="address"/>
                             <field name="language"/>
@@ -77,13 +88,23 @@
                                 <field name="can_be_purchased"/>
                             </group>
                             <group>
-                                <field name="category" widget="many2many_tags"/>
+                                <field name="product_ids" widget="many2many_tags" options="{'color_field': 'color'}" invisible="can_be_purchased != True"/>
                             </group>
                         </group>
                     </group>
                     <notebook>
-                        <page string="Description">
-                            <field name="offers">
+                        <page string="Sell Products" invisible="can_be_purchased != True">
+                            <field name="sale_offer_ids">
+                                <tree editable="bottom" open_form_view="True">
+                                    <field name="name"/>
+                                    <field name="price_unit"/>
+                                    <field name="quantity"/>
+                                    <field name="tax"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Order" invisible="can_be_sold != True">
+                            <field name="purchase_offer_ids">
                                 <tree editable="bottom" open_form_view="True">
                                     <field name="name"/>
                                     <field name="price_unit"/>
@@ -95,6 +116,20 @@
                     </notebook>
                 </sheet>
             </form>
+        </field>
+    </record>
+
+    <record id="contact_property_view_search" model="ir.ui.view">
+        <field name="name">contact_property.view.search</field>
+        <field name="model">contact.property</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name"/>
+                <field name="product_ids"/>
+                <separator/> 
+                <filter name="is_farmer" string="Farmers" domain="[('can_be_purchased', '=', 'True')]" />
+                <filter name="is_buyer" string="Buyers" domain="[('can_be_sold', '=', 'True')]" />
+            </search>
         </field>
     </record>
 </odoo>

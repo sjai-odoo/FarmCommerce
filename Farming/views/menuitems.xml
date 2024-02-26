@@ -2,14 +2,9 @@
 
 <odoo>
     <menuitem id="contacts_menu_root" name="FarmCommerce" sequence="1"> 
-        <menuitem id="users_menu" name="Users" sequence="2">
-            <menuitem id="submenu_menu" name="Farmers" action="action_contacts_view" sequence="3"/>
-        </menuitem>
+        <menuitem id="users_menu" name="Users" action="action_contacts_view" sequence="2"/>
         <menuitem id="product_menu" name="Product" sequence="4">
             <menuitem id="products_forms" name="Products" action="product_properties_action" sequence="5"/>
-        </menuitem>
-        <menuitem id="sales_menu" name="Orders" sequence="6">
-            <menuitem id="sales_orders" name="Sales orders" action="sales_order_action" sequence="7"/>
         </menuitem>
     </menuitem>
 </odoo>
