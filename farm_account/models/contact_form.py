@@ -12,21 +12,11 @@ class ContactProperty(models.Model):
                 'move_type': 'out_invoice',
                 "invoice_line_ids": [
                     Command.create({
-                        "name" : record.purchase_offer_ids.name,
+                        "name" : record.purchase_offer_ids.name.name,
                         "quantity" : record.purchase_offer_ids.quantity,
                         "price_unit" : record.purchase_offer_ids.price_unit,
                     }),
                 ],
-                # Command.create({
-                #         'name': 'Tax (5%)',
-                #         'quantity': 1,
-                #         'price_unit': record.selling_price*0.05,
-                #     }),
-                # Command.create({
-                #     'name': 'Administrative Fees',
-                #     'quantity': 1,
-                #     'price_unit': 100
-                # }),
             }
             move_obj.create(vals)
         

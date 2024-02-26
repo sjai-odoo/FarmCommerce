@@ -15,7 +15,6 @@
                 <field name="name"/>
                 <field name="quantity"/>
                 <field name="sales_price"/>
-                <field name="quantity"/>
                 <field name="tax" />
             </tree>
         </field>

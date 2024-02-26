@@ -6,14 +6,15 @@ class SaleOrderLine(models.Model):
     _description = 'Sales Order Line'
 
     # fields
-    sale_id = fields.Many2one('contact.property', string='Farmer', ondelete='restrict', index='btree_not_null') #because product-id should not be null
-    product_ids = fields.One2many('product.property', 'order_line_id', string='Name', readonly=False)
+    amount_total = fields.Float(string='Total', store=True, compute='_compute_total') # total billed amount
     name = fields.Many2one('product.property')
     price_unit = fields.Float(string='Unit Price', store=True, readonly=False, required=True,)
+    product_ids = fields.One2many('product.property', 'order_line_id', string='Name', readonly=False)
+    purchase_id = fields.Many2one('contact.property', string='Purchase', ondelete='restrict', index='btree_not_null')
     quantity = fields.Integer(string='Qty', store=True, readonly=False, required=True,)
-    tax = fields.Selection(string='Taxes', selection=[( '5','5% tax'), ( '15', 'Base 15%'), ( '21', '21% tax'),], default='5') # tax to apply should be for every product
+    sale_id = fields.Many2one('contact.property', string='Farmer', ondelete='restrict', index='btree_not_null')
+    tax = fields.Selection(string='Taxes', selection=[( '5','5% tax'), ( '15', 'Base 15%'), ( '21', '21% tax'),], default='5')
     tax_amount = fields.Float(string='Total Tax',store=True, readonly=True, compute='_compute_total')# Total tax amount 
-    amount_total = fields.Float(string='Total', store=True, compute='_compute_total') # total billed amount
 
     # Methods
     @api.depends('price_unit','tax','quantity')
