@@ -7,7 +7,7 @@
     'summary': 'A try to help the farmers grow economically',
     'installable': True,
     'application': True,
-    'depends': ['Farming','account'],
+    'depends': ['Farming','account_accountant'],
     'license': 'OEEL-1',
     'version': '1.0',
     'auto_install': True, # automatically install this module if all dependecies are installed

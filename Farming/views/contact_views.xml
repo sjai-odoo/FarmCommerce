@@ -24,11 +24,13 @@
                                     </div>
                                     <div class="oe_kanban_details">
                                         <h3>
-                                            <p class="mb-0"><b><field name="name"/></b></p>
+                                            <p class="mb-0"><b><field name="name" invisible="contact_type == 'buyer'"/></b></p>
+                                            <p class="mb-0"><b><field name="buyer_id" invisible="contact_type == 'farmer'"/></b></p>
                                         </h3>
-                                        <field class="mt-0" name="phone"/>
+                                        <field class="mt-0" name="contact_type"/>
+                                        <field class="mt-0" name="phone_number"/>
                                         <field class="mt-0" name="product_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
-                                        <p class="my-0"><b>Location : </b><field name="address"/></p>
+                                        <p class="my-0"><b>Location : </b><field name="address" widget="address"/></p>
                                         <p class="my-0"><b>Language : </b><field name="language"/></p>
                                     </div>
                                 </div>
@@ -48,7 +50,7 @@
             <tree string="User Form">
                 <field name="name"/>
                 <field name="image"/>
-                <field name="phone"/>
+                <field name="phone_number"/>
                 <field name="language"/>
                 <field name="address"/>
             </tree>
@@ -62,19 +64,22 @@
         <field name="arch" type="xml">
             <form string="Contacts">
                 <header>
-                    <button name="action_order_items" type="object" string="Order" class="btn-primary" invisible="can_be_sold != True"/>
-                    <field name="status" widget="statusbar" invisible="can_be_sold != True"/>
+                    <button name="action_order_items" type="object" string="Order" class="btn-primary" invisible="contact_type == 'farmer'"/>
+                    <button name="action_validate_items" type="object" string="Supply" class="btn-primary" invisible="contact_type == 'buyer'"/>
+                    <field name="purchase_order_status" widget="statusbar" invisible="contact_type == 'farmer'"/>
+                    <field name="sale_order_status" widget="statusbar" invisible="contact_type == 'buyer'"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_report_history)d" class="oe_stat_button" icon="fa-file-image-o" string="Report" type="action" />
+                    </div>
                     <group>
                         <group>
-                            <field name="name" />
-                            <!-- <field name="name" invisible="can_be_purchased == True"/>
-                            <field name="buyer_id" invisible="can_be_purchased != True"/> -->
-                            <field name="phone"/>                            
-                            <field name="address"/>
+                            <field name="name" invisible="contact_type == 'buyer'"/>
+                            <field name="buyer_id" invisible="contact_type == 'farmer'"/>
+                            <field name="phone_number"/>                            
+                            <field name="address" widget="address"/>
                             <field name="language"/>
-                            <field name="income_certi"/>
                         </group>
                         <group>
                             <div class="o_field_widget o_field_image oe_avatar">
@@ -85,18 +90,23 @@
                                 </div>
                             </div>
                             <group>
-                                <field name="can_be_sold"/>
-                            </group>
-                            <group>
-                                <field name="can_be_purchased"/>
-                            </group>
-                            <group>
-                                <field name="product_ids" widget="many2many_tags" options="{'color_field': 'color'}" invisible="can_be_purchased != True"/>
+                                <field name="contact_type" widget="radio"/>
                             </group>
                         </group>
                     </group>
                     <notebook>
-                        <page string="Sell Products" invisible="can_be_purchased != True">
+                        <page string="Farmer Details" invisible="contact_type == 'buyer'">
+                            <group>
+                                <group>
+                                    <field name="product_ids" widget="many2many_tags" options="{'color_field': 'color'}" /> <!-- invisible="can_be_purchased != True"-->
+                                    <field name="profit"/>
+                                </group>
+                                <group>
+                                    <field name="income_certi"/>
+                                </group>
+                            </group>                   
+                        </page>
+                        <page string="Sell Products" invisible="contact_type == 'buyer'">
                             <field name="sale_offer_ids">
                                 <tree editable="bottom" open_form_view="True">
                                     <field name="name"/>
@@ -106,11 +116,11 @@
                                 </tree>
                             </field>
                         </page>
-                        <page string="Order" invisible="can_be_sold != True">
+                        <page string="Order" invisible="contact_type == 'farmer'">
                             <field name="purchase_offer_ids">
                                 <tree editable="bottom" open_form_view="True">
                                     <field name="name"/>
-                                    <field name="price_unit"/>
+                                    <field name="buyer_price_unit"/>
                                     <field name="quantity"/>
                                     <field name="tax"/>
                                 </tree>
@@ -130,8 +140,8 @@
                 <field name="name"/>
                 <field name="product_ids"/>
                 <separator/> 
-                <filter name="is_farmer" string="Farmers" domain="[('can_be_purchased', '=', 'True')]" />
-                <filter name="is_buyer" string="Buyers" domain="[('can_be_sold', '=', 'True')]" />
+                <filter name="is_farmer" string="Farmers" domain="[('contact_type', '=', 'farmer')]" />
+                <filter name="is_buyer" string="Buyers" domain="[('contact_type', '=', 'buyer')]" />
             </search>
         </field>
     </record>

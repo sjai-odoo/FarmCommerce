@@ -10,12 +10,16 @@
     'application': True,
     'depends': ['base'],
     'license': 'OEEL-1',
+    'sequence': 1,
     'version': '1.0',
     'data' : [
         'security/users.xml',
         'security/ir.model.access.csv',
+        'report/farm_commerce_reports.xml',
+        'report/farm_commerce_templates.xml',
         'views/contact_views.xml',
         'views/product_views.xml',
+        'views/order_lines_views.xml',
         'views/menuitems.xml',
     ]
 }
