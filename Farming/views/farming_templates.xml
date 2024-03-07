@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="index">
+        <t t-call="website.layout">
+
+            <link rel="stylesheet" href="style.css"/>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+            <!-- Products Section -->
+            <div class="container">
+                <h3 style="text-align:center">Vegetables</h3><hr></hr>
+                <div class="row">
+                    <t t-foreach="vege_records" t-as="record">
+                        <div class="col-6 col-lg-3 mb-5 mb-lg-0" style="margin: 40px auto">
+                            <!-- Card -->
+                            <div class="card d-block">
+                            <t t-if="record.image">
+                                <a t-attf-href="/farm/#{record.name}/"><img class="card-img-top" t-att-src="image_data_uri(record.image)" style="height:250px"/></a>
+                            </t>
+                            <div class="card-footer text-center py-4">
+                                <h3 class="h5 mb-1">New releases</h3>
+                                <span class="d-block text-muted font-size-1 mb-3"><t t-esc="record.name"/></span>
+                                <a class="btn btn-sm btn-outline-primary btn-pill transition-3d-hover px-5" href="#">View All</a>
+                            </div>
+                            </div>
+                            <!-- End Card -->
+                        </div>
+                    </t>
+                </div>
+            </div>
+
+            <div class="container">
+                <h3 style="text-align:center; margin:40px auto 0px">Grains</h3><hr></hr>
+                <div class="row">
+                    <t t-foreach="grain_records" t-as="record">
+                        <div class="col-6 col-lg-3 mb-5 mb-lg-0" style="margin: 40px auto">
+                            <!-- Card -->
+                            <div class="card d-block">
+                            <t t-if="record.image">
+                                <a t-attf-href="/farm/#{record.name}/"><img class="card-img-top" t-att-src="image_data_uri(record.image)"/></a>
+                            </t>
+                            <div class="card-footer text-center py-4">
+                                <h3 class="h5 mb-1">New releases</h3>
+                                <span class="d-block text-muted font-size-1 mb-3"><t t-esc="record.name"/></span>
+                                <a class="btn btn-sm btn-outline-primary btn-pill transition-3d-hover px-5" href="#">View All</a>
+                            </div>
+                            </div>
+                            <!-- End Card -->
+                        </div>
+                    </t>
+                </div>
+            </div>
+            <!-- End Products Section -->
+        </t>
+    </template>
+
+
+    <template id="hey">
+        <t t-call="website.layout">
+
+            <link rel="stylesheet" href="style.css"/>
+            <link rel="stylesheet" href="../../assets/vendor/fancybox/jquery.fancybox.css"></link>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+            <!-- JS Implementing Plugins -->
+            <script src="../../assets/vendor/fancybox/jquery.fancybox.min.js"></script>
+
+            <!-- JS Implementing Plugins -->
+            <script src="../../assets/js/components/hs.fancybox.js"></script>
+
+            <!-- JS Plugins Init. -->
+            <script>
+            $(document).on('ready', function () {
+                // initialization of popups
+                $.HSCore.components.HSFancyBox.init('.js-fancybox');
+            });
+            </script>
+
+
+            <div class="border-bottom pb-5 mb-5">
+                <div class="row">
+                    <t t-foreach="vege_records" t-as="record">
+                        <div class="col-md-4 d-md-flex align-items-md-start flex-md-column mb-5 mb-md-0">
+                            <!-- Gallery -->
+                            <t t-if="record.image">
+                                <a t-attf-href="/farm/#{record.name}/"><img class="img-fluid w-100" t-att-src="image_data_uri(record.image)" style="height:250px"/></a>
+                            </t>
+                            <div class="position-absolute bottom-0 right-0 pb-2 pr-2">
+                                <span class="btn btn-icon btn-sm btn-white">
+                                <span class="fas fa-images btn-icon__inner"></span>
+                                </span>
+                            </div>
+                    
+                            <img class="js-fancybox d-none" alt="Image Description"
+                                data-fancybox="fancyboxGalleryExample1"
+                                data-src="../../assets/img/1920x1080/img37.jpg"
+                                data-caption="Front in frames - image #02"
+                                data-speed="700"
+                                data-is-infinite="true"/>
+                            <img class="js-fancybox d-none" alt="Image Description"
+                                data-caption="Front in frames - image #03"
+                                data-src="../../assets/img/1920x1080/img38.jpg"
+                                data-fancybox="fancyboxGalleryExample1"
+                                data-speed="700"
+                                data-is-infinite="true"/>
+                            <!-- End Gallery -->
+                    
+                            <!-- Agent Info -->
+                            <div class="media align-items-center mt-auto">
+                            <div class="u-sm-avatar mr-2">
+                                <img class="img-fluid rounded-circle" src="../../assets/img/100x100/img1.jpg" alt="Image Description" title="Monica Fox"/>
+                            </div>
+                            <div class="media-body">
+                                <small class="d-block text-muted">Listed on Jan 4, 2019 by</small>
+                                <span class="d-block">Monica Fox</span>
+                            </div>
+                            </div>
+                            <!-- End Agent Info -->
+                        </div>
+                    
+                        <div class="col-md-8">
+                            <div class="row">
+                            <div class="col-8">
+                                <h2 class="h4 mb-1">
+                                <a href="property-description.html">$689,000</a>
+                                </h2>
+                            </div>
+                            <div class="col-4 text-right">
+                                <span class="badge badge-success">New</span>
+                            </div>
+                            </div>
+                    
+                            <!-- Location -->
+                            <div class="mb-3">
+                            <a class="font-size-1" href="property-description.html">
+                                <span class="fas fa-map-marker-alt mr-1"></span>
+                                Borrett Close, London SE17
+                            </a>
+                            </div>
+                            <!-- End Location -->
+                    
+                            <!-- Icon Blocks -->
+                            <ul class="list-inline font-size-1">
+                            <li class="list-inline-item mr-3" title="1 bedroom">
+                                <span class="fas fa-bed text-muted mr-1"></span>
+                                1
+                            </li>
+                            <li class="list-inline-item mr-3" title="1 bathroom">
+                                <span class="fas fa-bath text-muted mr-1"></span>
+                                1
+                            </li>
+                            <li class="list-inline-item mr-3" title="1 living room">
+                                <span class="fas fa-couch text-muted mr-1"></span>
+                                1
+                            </li>
+                            <li class="list-inline-item mr-3" title="square feet">
+                                <span class="fas fa-ruler-combined text-muted mr-1"></span>
+                                1,428 sqft
+                            </li>
+                            </ul>
+                            <!-- End Icon Blocks -->
+                    
+                            <p class="font-size-1">This superb one bedroom flat rests a stones throw from Kennington tube station and Elephant and Castle train station as well as the leafy Paisley Park. The large hatch in the kitchen opens out to a light and open plan living space, perfect for...</p>
+                    
+                            <!-- Contacts -->
+                            <div class="d-flex align-items-center font-size-1">
+                            <a class="text-secondary mr-4" href="javascript:;">
+                                <span class="fas fa-phone mr-1"></span>
+                                (0161) 347 8854
+                            </a>
+                            <a class="text-secondary mr-4" href="javascript:;">
+                                <span class="fas fa-envelope mr-1"></span>
+                                Contact
+                            </a>
+                            <a class="text-secondary mr-4" href="javascript:;">
+                                <span class="fas fa-star mr-1"></span>
+                                Save
+                            </a>
+                            <a class="btn btn-sm btn-soft-primary transition-3d-hover ml-auto" href="property-description.html">
+                                Details
+                                <span class="fas fa-angle-right ml-1"></span>
+                            </a>
+                            </div>
+                            <!-- End Contacts -->
+                        </div>
+                    </t>
+                </div>
+            </div>
+              <!-- End Property Item -->
+        </t>
+    </template>
+</odoo>

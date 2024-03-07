@@ -70,9 +70,6 @@
                     <field name="sale_order_status" widget="statusbar" invisible="contact_type == 'buyer'"/>
                 </header>
                 <sheet>
-                    <div class="oe_button_box" name="button_box">
-                        <button name="%(action_report_history)d" class="oe_stat_button" icon="fa-file-image-o" string="Report" type="action" />
-                    </div>
                     <group>
                         <group>
                             <field name="name" invisible="contact_type == 'buyer'"/>
@@ -107,24 +104,33 @@
                             </group>                   
                         </page>
                         <page string="Sell Products" invisible="contact_type == 'buyer'">
-                            <field name="sale_offer_ids">
+                            <field name="sale_offer_ids" >
                                 <tree editable="bottom" open_form_view="True">
-                                    <field name="name"/>
-                                    <field name="price_unit"/>
-                                    <field name="quantity"/>
-                                    <field name="tax"/>
+                                    <field name="name" readonly="state == 'ordered'"/>
+                                    <field name="price_unit" readonly="state == 'ordered'"/>
+                                    <field name="quantity" readonly="state == 'ordered'"/>
+                                    <field name="tax" readonly="state == 'ordered'"/>
+                                    <field name="state" readonly="state == 'ordered'"/>
                                 </tree>
                             </field>
                         </page>
                         <page string="Order" invisible="contact_type == 'farmer'">
                             <field name="purchase_offer_ids">
                                 <tree editable="bottom" open_form_view="True">
-                                    <field name="name"/>
-                                    <field name="buyer_price_unit"/>
-                                    <field name="quantity"/>
-                                    <field name="tax"/>
+                                    <field name="name" readonly="state == 'ordered'"/>
+                                    <field name="buyer_price_unit" readonly="state == 'ordered'"/>
+                                    <field name="quantity" readonly="state == 'ordered'"/>
+                                    <field name="tax" readonly="state == 'ordered'"/>
+                                    <field name="state" readonly="state == 'ordered'"/>
+                                    <field name="deadline" string="Date to deliver" help="When you want this" readonly="state == 'ordered'"/>    
                                 </tree>
                             </field>
+                        </page>
+                        <page string="Delivery Details" invisible="contact_type == 'buyer'">
+                            <group>
+                                <field name="delivery_place" string="Deliver at" help="Location you want to deliver at."/>
+                                <field name="lead_time" string="Lead time" help="Time take to deliver to the our location"/>    
+                            </group>
                         </page>
                     </notebook>
                 </sheet>

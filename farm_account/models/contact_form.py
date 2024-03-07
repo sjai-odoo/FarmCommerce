@@ -9,11 +9,11 @@ class ContactProperty(models.Model):
         move_obj = self.env["account.move"]
         for record in self:
             invoice_lines = []
-            for purchase_order in record.purchase_offer_ids:
+            for purchase_order in record.purchase_offer_ids.search([('state', '!=', 'ordered')]):
                 invoice_line = (0, 0, {
                     "name": purchase_order.name.name,
                     "quantity": purchase_order.quantity,
-                    "price_unit": purchase_order.price_unit,
+                    "price_unit": purchase_order.buyer_price_unit,
                 })
                 invoice_lines.append(invoice_line)
             vals = {
@@ -23,13 +23,16 @@ class ContactProperty(models.Model):
             }
             move_obj.create(vals)
         return super().action_order_items()
+
+        # for record in self:
+        #     record.purchase_offer_ids.unlink()
     
     def action_validate_items(self):
         move_obj = self.env["account.move"]
         for record in self:
             # Prepare the list of invoice lines
             vendor_invoice_lines = []
-            for sale_order in record.sale_offer_ids:
+            for sale_order in record.sale_offer_ids.search([('state', '!=', 'ordered')]):
                 invoice_line = (0, 0, {
                     "name": sale_order.name.name,
                     "quantity": sale_order.quantity,
@@ -49,5 +52,9 @@ class ContactProperty(models.Model):
 
         # Call super() only once after processing all records
         return super().action_validate_items()
+
+        # def action_show_history(self):
+        #     move_obj = self.env['account.move']
+        #     breakpoint()
         
         

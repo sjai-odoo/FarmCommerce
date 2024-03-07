@@ -3,7 +3,7 @@
     <record id="order_line_action" model="ir.actions.act_window">
         <field name="name">Action Name</field>
         <field name="res_model">order.line</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,gantt,graph</field>
     </record>
 
     <record id="order_line_view_tree" model="ir.ui.view">
@@ -11,10 +11,11 @@
         <field name="model">order.line</field>
         <field name="arch" type="xml">
             <tree string="">
-                <field name="name"/>
-                <field name="quantity"/>
-                <field name="buyer_price_unit" string="Selling Price"/>
-                <field name="tax"/>
+                <field name="name" readonly="state == 'ordered'"/>
+                <field name="quantity" readonly="state == 'ordered'"/>
+                <field name="buyer_price_unit" string="Selling Price" readonly="state == 'ordered'"/>
+                <field name="tax" readonly="state == 'ordered'"/>
+                <field name="state" readonly="state == 'ordered'"/>
             </tree>
         </field>
     </record>
@@ -25,15 +26,46 @@
         <field name="arch" type="xml">
             <form string="">
                 <sheet>
-                    <group>
-                        <field name="name"/>
-                        <field name="tax"/>
-                    </group>
-                    <group>
-                        <field name="quantity"/>
+                    <group >
+                        <group>
+                            <field name="name" readonly="state == 'ordered'"/>
+                            <field name="tax" readonly="state == 'ordered'"/>
+                        </group>
+                        <group>
+                            <field name="quantity" readonly="state == 'ordered'"/>
+                            <field name="state" readonly="state == 'ordered'"/>
+                        </group>
                     </group>
                 </sheet>
             </form>
+        </field>
+    </record>
+
+    <record id="order_line_view_gantt" model="ir.ui.view">
+        <field name="name">order.line.view.gantt</field>
+        <field name="model">order.line</field>
+        <field name="arch" type="xml">
+            <gantt string="" date_start="start_time" date_stop="end_date" default_group_by="name"
+            color = "contacts_type">
+            <field name="name" />
+            <field name="start_time" />
+            <field name="end_date"/>
+            <field name="contacts_type" />
+            </gantt>
+        </field>
+    </record>
+
+    <record id="order_line_view_graph" model="ir.ui.view">
+        <field name="name">order.line.view.graph</field>
+        <field name="model">order.line</field>
+        <field name="arch" type="xml">
+            <graph string="" type="pie">
+                <field name="name"/>
+                <field name="quantity"/>
+                <field name="tax_amount"/>
+                <field name="buyer_price_unit"/>
+                <field name="amount_total" string="Sales"/>
+            </graph>
         </field>
     </record>
 </odoo>

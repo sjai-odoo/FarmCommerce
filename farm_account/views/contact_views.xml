@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="inherited_res_user_form_view" model="ir.ui.view">
+        <field name="name">inherited.contact.property.view.form</field>
+        <field name="model">contact.property</field>
+        <field name="inherit_id" ref="Farming.contact_property_view_form"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="oe_button_box" name="button_box">
+                    <button name="%(action_report_history)d" class="oe_stat_button" icon="fa-file-image-o" string="History" type="action" />
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

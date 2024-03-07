@@ -11,4 +11,10 @@
     'license': 'OEEL-1',
     'version': '1.0',
     'auto_install': True, # automatically install this module if all dependecies are installed
+    'data' : [
+        'report/farm_commerce_reports.xml',
+        'report/farm_commerce_templates.xml',
+        'views/contact_views.xml',
+        'views/product_views.xml'
+    ]
 }

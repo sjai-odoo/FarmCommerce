@@ -6,26 +6,33 @@ class ContactProperty(models.Model):
     _name = 'contact.property'
     _description = 'Contact Details'
 
+    _sql_constraints=[
+        ('delivery_lead_time' , 'CHECK (lead_time >= 0)', 'Lead time cannot be negative.')
+    ]
+
     address = fields.Text(string = 'Address')
     buyer_id = fields.Many2one('res.partner', string='Buyer', copy=True)
     contact_type = fields.Selection([
         ('farmer', 'Farmer'),
         ('buyer', 'Buyer'),
     ], required=True)
+    delivery_place = fields.Selection(copy=False,
+            selection=[('ahmedabad','Ahmedabad'), ('rajkot','Rajkot'), ('surat','Surat'), ('baroda','Baroda')])
     email = fields.Text(string = 'Email')
     image = fields.Image('Image', max_height=100, max_width=100, copy=False, attachment=True)
     income_certi = fields.Binary(string = 'Income Certificate by gov.') # binary fields accept all files
     language = fields.Selection(selection=[('eng','English'),('guj','Gujarati'),('hi','Hindi')])
+    lead_time = fields.Integer(string="Lead time to deliver", default=4)
     name = fields.Char(string = 'Name', size=20) # The name should contain less than 20 char
     phone_number = fields.Char(string = 'Phone No.', required=True)   
     product_ids = fields.Many2many('product.property', string='Products', copy=False)
-    profit = fields.Float(string='Profit', compute='')
+    profit = fields.Float(string='Expected Profit', compute='_compute_profit')
     purchase_offer_ids = fields.One2many('order.line','purchase_id')
     sale_offer_ids = fields.One2many('order.line','sale_id')
     purchase_order_status = fields.Selection(string='Status', default='place', copy=False,
-            selection=[('place','Place Order'), ('draft','Draft'), ('ordered','Ordered'), ('delivered','Delivered')])
+            selection=[('place','Place Order'), ('draft','Draft')])
     sale_order_status = fields.Selection(string='Status', default='place', copy=False,
-            selection=[('place','Try it!'), ('draft','Draft'), ('validate','Validated')])
+            selection=[('place','Try it!'), ('draft','Draft')])
 
     # phone no. constraint
     @api.constrains('phone_number')
@@ -59,12 +66,21 @@ class ContactProperty(models.Model):
     # invoice creation
     def action_order_items(self):
         if self.purchase_offer_ids and self.purchase_order_status in ['place','draft']:
-            self.purchase_order_status='ordered'
+            self.purchase_order_status='place'
+            for order_line in self.purchase_offer_ids:
+                order_line.state = 'ordered'
+        # self.write({'purchase_offer_ids':False})  # Replace field_name with the actual field name you want to clear
+        # Return an action to refresh the view
+        # return {'type': 'ir.actions.client', 'tag': 'reload'}
 
     def action_validate_items(self):
         if self.sale_offer_ids and self.sale_order_status in ['place','draft']:
-            self.purchase_order_status='delivered'
-            # self.profitupdate +orderline clear
+            self.purchase_order_status='place'
+            for order_line in self.sale_offer_ids:
+                order_line.state = 'ordered'
+        # self.write({'sale_offer_ids':False})  # Replace field_name with the actual field name you want to clear
+        # Return an action to refresh the view
+        # return {'type': 'ir.actions.client', 'tag': 'reload'}
     
     @api.onchange('purchase_offer_ids')
     def _onchange_purchase_offer_ids(self):
@@ -75,4 +91,12 @@ class ContactProperty(models.Model):
     def _onchange_sale_offer_ids(self):
         if self.sale_offer_ids and self.sale_order_status=='place':
             self.sale_order_status='draft'
-    
+
+    @api.depends('product_ids.sales_price', 'sale_offer_ids.price_unit')
+    def _compute_profit(self):
+        for record in self:
+            total_profit = 0
+            for sales_line in record.sale_offer_ids: #product line
+                selling_price_mentioned_product = self.env['product.property'].search([('name', '=', sales_line.name.name)]).sales_price
+                total_profit += (selling_price_mentioned_product - sales_line.price_unit)*sales_line.quantity
+            record.profit = total_profit

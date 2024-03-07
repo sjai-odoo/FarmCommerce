@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_history" model="ir.actions.report">
+        <field name="name">History</field>
+        <field name="model">contact.property</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">farm_account.report_history</field>
+        <field name="report_file">farm_account.report_history</field>
+        <field name="print_report_name">'%s' % object.name</field>
+        <field name="binding_model_id" ref="Farming.model_contact_property"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_farmers_details" model="ir.actions.report">
+        <field name="name">History</field>
+        <field name="model">product.property</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">farm_account.farmers_details</field>
+        <field name="report_file">farm_account.farmers_details</field>
+        <field name="print_report_name">'%s' % object.name</field>
+        <field name="binding_model_id" ref="Farming.model_product_property"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

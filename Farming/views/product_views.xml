@@ -2,7 +2,7 @@
 
 <odoo>
     <record id="product_properties_action" model="ir.actions.act_window">
-        <field name="name">product_properties</field>
+        <field name="name">Products</field>
         <field name="res_model">product.property</field>
         <field name="view_mode">tree,form</field>
     </record>
@@ -11,20 +11,28 @@
         <field name="name">product_property.view.tree</field>
         <field name="model">product.property</field>
         <field name="arch" type="xml">
-            <tree string="">
+            <tree string="Products">
                 <field name="name"/>
-                <field name="quantity"/>
+                <field name="quantity" string="Stock"/>
                 <field name="sales_price"/>
                 <field name="tax" />
             </tree>
         </field>
     </record>
+
     <record id="product_property_view_form" model="ir.ui.view">
         <field name="name">product_property.view.form</field>
         <field name="model">product.property</field>
         <field name="arch" type="xml">
             <form string="">
                 <sheet>
+                    <div class="o_field_widget o_field_image oe_avatar">
+                        <div class="d-inline-block position-relative">
+                            <div class="d-flex justify-content-between w-100 bottom-0">
+                                <field name="image" widget="image"/>
+                            </div>
+                        </div>
+                    </div>
                     <group>
                         <group>
                             <field name="name"/>
@@ -39,6 +47,21 @@
                     </group>
                 </sheet>
             </form>
+        </field>
+    </record>
+
+    <record id="product_property_view_search" model="ir.ui.view">
+        <field name="name">product.property.view.search</field>
+        <field name="model">product.property</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name"/>
+                <field name="pro_category"/>
+                <separator/>
+                <filter string="Vegetables" name="is_vegetable" domain="[('pro_category', '=', 'vegetables')]"/>
+                <filter string="Grains" name="is_vegetable" domain="[('pro_category', '=', 'grains')]"/>
+                <separator />
+            </search>
         </field>
     </record>
 </odoo>
