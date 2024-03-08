@@ -1,23 +1,47 @@
 # -*- coding: utf-8 -*-
 from odoo import http, fields
 import math
+from odoo.http import request
 
 class Farming(http.Controller):
     
-    @http.route(['/farm'], auth='public', website=True)
+    @http.route(['/products'], auth="public", website=True)
     def index(self, page=1, **kw):
-        vegetables = http.request.env['product.property'].search([('pro_category', '=', 'vegetables')]) # offset willskip that much properties in the beginning
-        grains = http.request.env['product.property'].search([('pro_category', '=', 'grains')]) # offset willskip that much properties in the beginning
+        products = http.request.env['product.property'].search([])
         return http.request.render('Farming.index', { 
-            'vege_records': vegetables,
-            'grain_records': grains,
-        })# here the real-estate is our module.id of the template
+            'products': products,
+        })
+    
+    @http.route(['/products/<name>/'], auth="public", website=True)
+    def product_page(self, name, **post):
+        product = http.request.env['product.property'].search([('name', '=', name)])
 
-    @http.route(['/farm/Coconut'], auth='public', website=True)
-    def index(self, page=1, **kw):
-        vegetables = http.request.env['product.property'].search([('name', '=', 'Coconut')]) # offset willskip that much properties in the beginning
-        return http.request.render('Farming.hey', { 
-            'vege_records': vegetables,
-        })# here the real-estate is our module.id of the template
-    
-    
+        return http.request.render('Farming.product_page', { 
+            'product': product,
+            'name': name,
+        })
+
+    @http.route(['/products/cart/<name>'], type='http', auth='public', website=True)
+    def cart(self, name, quantity, page=1, **post):
+        # Retrieve cart_products dictionary from session or create an empty one
+        cart_products = request.session.get('cart_products', {'orders': []})
+
+        breakpoint()
+        cart_products['orders'].append({'name': name, 'quantity': quantity})
+        print(cart_products,"------------------------------------------------------")
+        # Update cart_products in user session
+        request.session['cart_products'] = cart_products
+        print(cart_products,"--------------------------------------------------------")
+        
+        return http.request.render('Farming.cart', {
+            'cart_products': cart_products['orders'],
+        })
+
+    @http.route(['/products/cart'], type='http', auth='public', website=True)
+    def view_cart(self, **kw):
+        # Retrieve cart_products dictionary from session or create an empty one
+        cart_products = request.session.get('cart_products', {'orders': []})
+
+        return http.request.render('Farming.cart', {
+            'cart_products': cart_products['orders'],
+        })

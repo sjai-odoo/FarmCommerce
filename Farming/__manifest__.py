@@ -15,6 +15,7 @@
     'data' : [
         'security/users.xml',
         'security/ir.model.access.csv',
+        'data/website_data.xml',
         'views/farming_templates.xml',
         'views/contact_views.xml',
         'views/product_views.xml',

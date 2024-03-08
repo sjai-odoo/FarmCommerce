@@ -4,6 +4,7 @@ from odoo import fields, models , exceptions , api
 
 class ContactProperty(models.Model):
     _name = 'contact.property'
+    _inherit = ['mail.thread']
     _description = 'Contact Details'
 
     _sql_constraints=[
@@ -11,7 +12,7 @@ class ContactProperty(models.Model):
     ]
 
     address = fields.Text(string = 'Address')
-    buyer_id = fields.Many2one('res.partner', string='Buyer', copy=True)
+    buyer_id = fields.Many2one('res.partner', string='Buyer', copy=True, tracking=True)
     contact_type = fields.Selection([
         ('farmer', 'Farmer'),
         ('buyer', 'Buyer'),
@@ -23,7 +24,7 @@ class ContactProperty(models.Model):
     income_certi = fields.Binary(string = 'Income Certificate by gov.') # binary fields accept all files
     language = fields.Selection(selection=[('eng','English'),('guj','Gujarati'),('hi','Hindi')])
     lead_time = fields.Integer(string="Lead time to deliver", default=4)
-    name = fields.Char(string = 'Name', size=20) # The name should contain less than 20 char
+    name = fields.Char(string = 'Name', size=20, tracking=True) # The name should contain less than 20 char
     phone_number = fields.Char(string = 'Phone No.', required=True)   
     product_ids = fields.Many2many('product.property', string='Products', copy=False)
     profit = fields.Float(string='Expected Profit', compute='_compute_profit')
