@@ -62,13 +62,19 @@
                               </tr>
                             </tbody>
                         </table>
-                        <form t-attf-action="/products/cart/{{name}}" method="post">
+                        <form t-attf-action="/add_to_cart" method="post">
                             <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                            <div class="form-group" style="display:flex; justify-content:space-between;">
-                              <label for="exampleInputEmail1 " class="my-2 ">Quantity  :</label>
-                              <input type="number" class="form-control" id="exampleInputEmail1" style="width:100px" aria-describedby="emailHelp" name="quantity" placeholder="Quantity"/>
+                            <div class="form-group">
+                                <label for="product_id">Product:</label>
+                                <select class="form-control" id="product_id" name="product_id">
+                                    <option t-att-value="product.id"><t t-esc="product.name"/></option>
+                                </select>
                             </div>
-                            <button type="submit" class="btn btn-primary my-4"><span><i class="fa fa-shopping-cart"></i>   Add to Cart</span></button>
+                            <div class="form-group">
+                                <label for="quantity">Quantity:</label>
+                                <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Quantity"/>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add to Cart</button>
                         </form>
                         <!-- Title -->
                     </div>
@@ -77,33 +83,54 @@
         </t>
     </template>
 
-    <template id="cart" name="template_name">
+    <template id="view_cart">
         <t t-call="website.layout">
-            <div style="display:flex;">
-                <table class="table" style="width:250px;">
+            <div class="my-5" style="text-align:center">
+                <h4>Cart</h4>
+            </div>
+            <div>
+                <table class="table table" style="width:70vw; margin:50px auto;">
                     <thead>
-                        <tr>
-                            <td>Name</td>
-                            <td>Quantity</td>
+                        <tr class="table-info">
+                            <td ><h5>Image</h5></td>
+                            <td style="width:30%"><h5>Name</h5></td>
+                            <td><h5>Quantity</h5></td>
+                            <td><h5>Price (per kg)</h5></td>
                         </tr>
                     </thead>
                     <tbody>
-                        <t t-foreach="cart_products" t-as="variable">
+                        <t t-foreach="cart_items" t-as="variable">
                             <tr>
                                 <td>
-                                    <t t-if="variable['name']">
-                                        <t t-esc="variable['name']"/>
+                                    <t t-if="variable['product_id']">
+                                        <img class="card-img-top" t-att-src="image_data_uri(variable.product_id.image)" style="height:100px; width:100px;"/>
                                     </t>
                                     <t t-else="">
-                                        <h5>missing name</h5>
+                                        <h5>missing id</h5>
+                                    </t>
+                                </td>
+                                <td>
+                                    <t t-if="variable['product_id']">
+                                        <h6 t-field="variable.product_id.name"/>
+                                    </t>
+                                    <t t-else="">
+                                        <h5>missing id</h5>
                                     </t>
                                 </td>
                                 <td>
                                     <t t-if="variable['quantity']">
-                                        <t t-esc="variable['quantity']"/>
+                                        <h6 t-field="variable.quantity"/>
                                     </t>
                                     <t t-else="">
                                         <h5>missing quantity</h5>
+                                    </t>
+                                </td>
+                                <td>
+                                    <t t-if="variable['product_id']">
+                                        <h6 t-field="variable.product_id.cost"/>
+                                    </t>
+                                    <t t-else="">
+                                        <h5>missing id</h5>
                                     </t>
                                 </td>
                             </tr>

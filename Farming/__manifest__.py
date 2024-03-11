@@ -20,6 +20,7 @@
         'views/contact_views.xml',
         'views/product_views.xml',
         'views/order_lines_views.xml',
+        'views/cart_items_views.xml',
         'views/menuitems.xml',
     ]
 }

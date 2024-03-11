@@ -6,5 +6,10 @@
             <field name="url">/products</field>
             <field name="parent_id" ref="website.main_menu"/>
         </record>
+        <record id="website_menu_cart" model="website.menu">
+            <field name="name">Cart</field>
+            <field name="url">/cart</field>
+            <field name="parent_id" ref="website.main_menu"/>
+        </record>
     </data>
 </odoo>

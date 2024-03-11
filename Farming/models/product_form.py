@@ -30,7 +30,7 @@ class ProductProperty(models.Model):
                 if(record_wise.sale_id):
                     quantity += record_wise.quantity
                 else:
-                    pass
+                    quantity -= record_wise.quantity
             record.quantity=quantity
 
 

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cart_item_action" model="ir.actions.act_window">
+        <field name="name">Cart Items</field>
+        <field name="res_model">cart.item</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="view_cart_form" model="ir.ui.view">
+        <field name="name">Cart Form</field>
+        <field name="model">cart.item</field>
+        <field name="arch" type="xml">
+            <form string="Cart">
+                <field name="product_id"/>
+                <field name="quantity"/>
+                <!-- Add other fields as necessary -->
+            </form>
+        </field>
+    </record>
+    
+    <record id="cart_item_view_tree" model="ir.ui.view">
+        <field name="name">cart.item.view.tree</field>
+        <field name="model">cart.item</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="product_id"/>
+                <field name="quantity"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <odoo>
-    <menuitem id="contacts_menu_root" name="FarmCommerce" sequence="1"> 
-        <menuitem id="users_menu" name="Users" action="action_contacts_view" sequence="2"/>
-        <menuitem id="product_menu" name="Product" sequence="4">
-            <menuitem id="products_forms" name="Products" action="product_properties_action" sequence="5"/>
-            <menuitem id="products_reports" name="Reporting" action="order_line_action" sequence="6"/>
+    <menuitem id="contacts_menu_root" name="FarmCommerce"> 
+        <menuitem id="users_menu" name="Users" action="action_contacts_view"/>
+        <menuitem id="product_menu" name="Product">
+            <menuitem id="products_forms" name="Products" action="product_properties_action"/>
+            <menuitem id="products_reports" name="Reporting" action="order_line_action"/>
+        </menuitem>
+        <menuitem id="cart_items" name="Online Orders">
+            <menuitem id="cart_items_form" name="Cart" action="cart_item_action"/>
         </menuitem>
     </menuitem>
 </odoo>
