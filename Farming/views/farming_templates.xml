@@ -3,11 +3,10 @@
     <template id="index">
         <t t-call="website.layout">
 
-            <link rel="stylesheet" href="style.css"/>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 
             <!-- Products Section -->
-            <div class="container my-5">
+            <div class="container my-5" style="background-image:url(''https://img.freepik.com/free-photo/design-space-paper-textured-background_53876-71294.jpg?t=st=1710226715~exp=1710230315~hmac=113aff18df5e6fb8cbf28e3f686ae2d186c3ef6d34905a3258629223adc303e7); background-size: cover; z-index:1;">
                 <h3 style="text-align:center">Vegetables and Grains</h3><hr></hr>
                 <div class="row">
                     <t t-foreach="products" t-as="record">
@@ -85,58 +84,150 @@
 
     <template id="view_cart">
         <t t-call="website.layout">
-            <div class="my-5" style="text-align:center">
-                <h4>Cart</h4>
-            </div>
-            <div>
-                <table class="table table" style="width:70vw; margin:50px auto;">
-                    <thead>
-                        <tr class="table-info">
-                            <td ><h5>Image</h5></td>
-                            <td style="width:30%"><h5>Name</h5></td>
-                            <td><h5>Quantity</h5></td>
-                            <td><h5>Price (per kg)</h5></td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <t t-foreach="cart_items" t-as="variable">
-                            <tr>
-                                <td>
-                                    <t t-if="variable['product_id']">
-                                        <img class="card-img-top" t-att-src="image_data_uri(variable.product_id.image)" style="height:100px; width:100px;"/>
+            <div style="background-color: rgb(0,0,0); z-index: 2; background-color: rgba(0,0,0, 0.4); ">
+                <div style="background-image:url('https://img.freepik.com/free-photo/3d-render-money-transfer-mobile-banking-online_107791-16729.jpg?t=st=1710161819~exp=1710165419~hmac=2aa536cb82e7ed69eb9046bc0d8ca9f8009f90288c4e51c10e5cbac511d67d88'); background-size: cover; z-index:1;">
+                    <div class="py-3" style="text-align:center">
+                        <h3 style="color:white">Cart</h3>
+                    </div>
+                    <div style=" display:flex; justify-content:space-around; width:90vw; margin:0px auto; background-color:rgba(255,255,255, 0.8); border-radius:5px; border-width:2px">
+                        <div class="col-lg-5">
+                            <h5 class="mb-3"><a t-attf-href="/products/" class="text-body"><i
+                                  class="fas fa-long-arrow-alt-left"></i>Continue shopping</a></h5>
+                            <hr/>
+            
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                              <div>
+                                <p class="mb-1">Shopping cart</p>
+                                <p class="mb-0">You have <t t-esc="cart_item_numbers"/> items in your cart</p>
+                              </div>
+                            </div>
+                            
+                            <t t-foreach="users_cart" t-as="variable">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                      <div class="d-flex justify-content-between">
+                                        <div class="d-flex flex-row align-items-center">
+                                          <div>
+                                            <t t-if="variable['product_id']">
+                                                <img class="card-img-top" t-att-src="image_data_uri(variable.product_id.image)" style="height:100px; width:100px;"/>
+                                            </t>
+                                            <t t-else="">
+                                                <h5>missing id</h5>
+                                            </t>
+                                          </div>
+                                          <div class="ms-3">
+                                            <h5>
+                                                <t t-if="variable['product_id']">
+                                                    <h5 t-field="variable.product_id.name"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <h5>missing id</h5>
+                                                </t>
+                                            </h5>
+                                            <p class="small mb-0"><t t-esc="variable.product_id.pro_category"/></p>
+                                          </div>
+                                        </div>
+                                        <div class="d-flex flex-row align-items-center">
+                                            <div style="display:flex; justify-content:center; margin:0 4vw; align-items:center;">
+                                                <a t-attf-href="/cart/minus/#{variable.product_id.id}" class="text-body">
+                                                    <button class="btn btn-link px-2">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-dash" viewBox="0 0 16 16">
+                                                            <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8"/>
+                                                        </svg>
+                                                    </button>
+                                                </a>
+                                                <div style="margin:0 5px;">
+                                                    <h5 class="fw-normal mb-0"><t t-esc="variable.quantity"/></h5>
+                                                </div>
+                                                <button class="btn btn-link px-2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="black" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                                                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                          <div style="width: 80px;">
+                                            <h5 class="mb-0"><t t-esc="variable.product_id.cost"/></h5>
+                                          </div>
+                                          <a t-attf-href="/cart/delete/#{variable.id}" style="color: #cecece;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-archive" viewBox="0 0 16 16">
+                                                <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5zm13-3H1v2h14zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
+                                              </svg>
+                                          </a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                             </t>
+                        </div>
+                        <div class="col-lg-4" style="margin:0 0 50px;">
+                            <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h5 class="mb-0">Card details</h5>
+                                    <t t-if="user_image">
+                                        <img class="card-img-top" t-att-src="image_data_uri(user_image)" style="width: 45px;" alt="Avatar"/>
                                     </t>
-                                    <t t-else="">
-                                        <h5>missing id</h5>
-                                    </t>
-                                </td>
-                                <td>
-                                    <t t-if="variable['product_id']">
-                                        <h6 t-field="variable.product_id.name"/>
-                                    </t>
-                                    <t t-else="">
-                                        <h5>missing id</h5>
-                                    </t>
-                                </td>
-                                <td>
-                                    <t t-if="variable['quantity']">
-                                        <h6 t-field="variable.quantity"/>
-                                    </t>
-                                    <t t-else="">
-                                        <h5>missing quantity</h5>
-                                    </t>
-                                </td>
-                                <td>
-                                    <t t-if="variable['product_id']">
-                                        <h6 t-field="variable.product_id.cost"/>
-                                    </t>
-                                    <t t-else="">
-                                        <h5>missing id</h5>
-                                    </t>
-                                </td>
-                            </tr>
-                        </t>
-                    </tbody>
-                </table>
+                                </div>
+                                <form class="mt-4">
+                                <div class="form-outline form-white mb-4">
+                                    <input type="text" id="typeName" class="form-control form-control-lg" siez="17"
+                                    placeholder="Cardholder's Name" />
+                                    <label class="form-label" for="typeName">Cardholder's Name</label>
+                                </div>
+            
+                                <div class="form-outline form-white mb-4">
+                                    <input type="text" id="typeText" class="form-control form-control-lg" siez="17"
+                                    placeholder="1234 5678 9012 3457" minlength="19" maxlength="19" />
+                                    <label class="form-label" for="typeName">Card Number</label>
+                                </div>
+            
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                    <div class="form-outline form-white">
+                                        <input type="text" class="form-control form-control-lg"
+                                        placeholder="MM/YYYY" size="7" id="exp" minlength="7" maxlength="7" />
+                                        <label class="form-label" for="typeExp">Expiration</label>
+                                    </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                    <div class="form-outline form-white">
+                                        <input type="password" id="typeText" class="form-control form-control-lg"
+                                        placeholder="&#9679;&#9679;&#9679;" size="1" minlength="3" maxlength="3" />
+                                        <label class="form-label" for="typeText">Cvv</label>
+                                    </div>
+                                    </div>
+                                </div>
+            
+                                </form>
+            
+                                <hr class="my-4"/>
+            
+                                <div class="d-flex justify-content-between">
+                                <p class="mb-2">Subtotal</p>
+                                <p class="mb-2">₹ <t t-esc="total_amount"/></p>
+                                </div>
+            
+                                <div class="d-flex justify-content-between">
+                                <p class="mb-2">Shipping</p>
+                                <p class="mb-2">₹0.00</p>
+                                </div>
+            
+                                <div class="d-flex justify-content-between mb-4">
+                                <p class="mb-2">Total(Incl. taxes)</p>
+                                <p class="mb-2">₹ <t t-esc="total_amount"/></p>
+                                </div>
+                                <div class="d-flex" style="justify-content:center">
+                                    <a t-attf-href="/cart/delete/">
+                                        <button type="button" class="btn btn-primary btn-block">
+                                            <span>Checkout <i class="fas fa-long-arrow-alt-right "></i></span>
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </t>
     </template>

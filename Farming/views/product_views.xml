@@ -11,7 +11,7 @@
         <field name="name">product_property.view.kanban</field>
         <field name="model">product.property</field>
         <field name="arch" type="xml">
-            <kanban sample="1">
+            <kanban default_group_by="tax">
                 <field name="id"/>
                 <templates>
                     <t t-name="kanban-box">

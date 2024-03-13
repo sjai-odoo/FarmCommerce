@@ -4,7 +4,9 @@
     <record id="cart_item_action" model="ir.actions.act_window">
         <field name="name">Cart Items</field>
         <field name="res_model">cart.item</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,gantt</field>
+        <field name="context">{'search_default_groupby_owner':1,'search_default_is_active':1,'search_default_groupby_update_date':1}</field>
+
     </record>
 
     <record id="view_cart_form" model="ir.ui.view">
@@ -12,9 +14,9 @@
         <field name="model">cart.item</field>
         <field name="arch" type="xml">
             <form string="Cart">
-                <field name="product_id"/>
+                <field name="product_id" invisible="state == 'ordered'"/>
                 <field name="quantity"/>
-                <!-- Add other fields as necessary -->
+                <field name="state"/>
             </form>
         </field>
     </record>
@@ -23,10 +25,40 @@
         <field name="name">cart.item.view.tree</field>
         <field name="model">cart.item</field>
         <field name="arch" type="xml">
-            <tree string="">
+            <tree string="" default_group_by='create_uid'>
+                <field name="create_uid"/>
                 <field name="product_id"/>
-                <field name="quantity"/>
+                <field name="quantity" sum="Total"/>
+                <field name="state"/>
             </tree>
+        </field>
+    </record>
+
+    <record id="cart_item_view_gantt" model="ir.ui.view">
+        <field name="name">cart_item.view.gantt</field>
+        <field name="model">cart.item</field>
+        <field name="arch" type="xml">
+            <gantt string="" date_start="create_date" date_stop="stop_date" 
+            default_group_by="create_uid,write_date:day"
+            color="state_id">
+            <field name="stop_date"/>
+            <field name="state_id"/>
+            </gantt>
+        </field>
+    </record>
+
+    <record id="cart_item_view_search" model="ir.ui.view">
+        <field name="name">cart.item.view.search</field>
+        <field name="model">cart.item</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="create_uid"/>
+                <field name="product_id"/>
+                <filter name="is_archived" string="Ordered" domain="[('state', '=', 'ordered')]"/>
+                <filter name="is_active" string="In Progress" domain="[('state', '=', 'draft')]"/>
+                <filter name="groupby_owner" string="Created by" context="{'group_by': 'create_uid'}"/>
+                <filter name="groupby_update_date" string="Ordered Date" context="{'group_by': 'write_date:day'}"/>
+            </search>
         </field>
     </record>
 </odoo>

@@ -9,7 +9,8 @@ class ContactProperty(models.Model):
         move_obj = self.env["account.move"]
         for record in self:
             invoice_lines = []
-            for purchase_order in record.purchase_offer_ids.search([('state', '!=', 'ordered')]):
+            breakpoint()
+            for purchase_order in record.purchase_offer_ids.filtered(lambda x: x.state == 'draft'):
                 invoice_line = (0, 0, {
                     "name": purchase_order.name.name,
                     "quantity": purchase_order.quantity,
@@ -32,7 +33,8 @@ class ContactProperty(models.Model):
         for record in self:
             # Prepare the list of invoice lines
             vendor_invoice_lines = []
-            for sale_order in record.sale_offer_ids.search([('state', '!=', 'ordered')]):
+            for sale_order in record.sale_offer_ids.filtered(lambda x: x.state == 'draft'):
+                breakpoint()
                 invoice_line = (0, 0, {
                     "name": sale_order.name.name,
                     "quantity": sale_order.quantity,

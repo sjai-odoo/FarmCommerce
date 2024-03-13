@@ -53,7 +53,6 @@ class ContactProperty(models.Model):
                 #we want existing_buyer_ids[0].id
                 l.append(existing_buyer_ids[i].id)
             if vals['buyer_id'] in l: #bcz it's a dict
-                print('hey')
                 raise UserError('This User already exist')
         return super().create(vals_list)
 
@@ -101,3 +100,11 @@ class ContactProperty(models.Model):
                 selling_price_mentioned_product = self.env['product.property'].search([('name', '=', sales_line.name.name)]).sales_price
                 total_profit += (selling_price_mentioned_product - sales_line.price_unit)*sales_line.quantity
             record.profit = total_profit
+
+    # bydefault group by the name so if name not defined take it as none which we don't want in orderlinesand such cases
+    # so let's define name for buyers
+    @api.onchange('buyer_id')
+    def _onchange_(self):
+        for record in self:
+            if record.contact_type == 'buyer':
+                record.name = record.buyer_id.name

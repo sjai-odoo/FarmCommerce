@@ -4,6 +4,7 @@
         <field name="name">Action Name</field>
         <field name="res_model">order.line</field>
         <field name="view_mode">tree,form,gantt,graph</field>
+        <field name="context">{'search_default_groupby_sale':1,'search_default_groupby_purchase':1}</field>
     </record>
 
     <record id="order_line_view_tree" model="ir.ui.view">
@@ -66,6 +67,20 @@
                 <field name="buyer_price_unit"/>
                 <field name="amount_total" string="Purchase"/>
             </graph>
+        </field>
+    </record>
+
+    <record id="order_line_view_search" model="ir.ui.view">
+        <field name="name">order.line.view.search</field>
+        <field name="model">order.line</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name" />
+                <field name="sale_id" />
+                <field name="purchase_id" />
+                <filter name="groupby_sale" string="sale lines" context="{'group_by': 'sale_id'}"/>
+                <filter name="groupby_purchase" string="Purchased lines" context="{'group_by': 'purchase_id'}"/>
+            </search>
         </field>
     </record>
 </odoo>
